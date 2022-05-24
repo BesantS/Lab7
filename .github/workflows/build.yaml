@@ -19,21 +19,10 @@ jobs:
 
     - name: Run Unit Tests
       working-directory: web
-      run: npm test
-      
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-central-1
-      
+      run: npm test      
+   
     - name: Build the Docker image and push to AWS ECR
       working-directory: web
-      env:
-        IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t besant:$IMAGE_TAG .
-        docker tag besant:$IMAGE_TAG 313422618945.dkr.ecr.eu-central-1.amazonaws.com/besant:$IMAGE_TAG
-        docker push 313422618945.dkr.ecr.eu-central-1.amazonaws.com/besant:$IMAGE_TAG
+        docker build -t besant .
       
